@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/Janek_PC/Desktop/Projects/opop/Library.cpp
+iostream
+-
+vector
+-
+Library.h
+C:/Users/Janek_PC/Desktop/Projects/opop/Library.h
+algorithm
+-
+
+C:/Users/Janek_PC/Desktop/Projects/opop/Library.h
+vector
+-
+

@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 
+#include "Library.h"
 using namespace std;
 
 
@@ -13,24 +14,17 @@ vector<int> makeVector(string &line_to_parse, string &delimiter) {
     do {
         pos = line_to_parse.find(delimiter);
         token = line_to_parse.substr(0, pos);
-        aVector.push_back(stoi(token, nullptr, 0));
+        aVector.push_back(stoi(token, nullptr, 0)); //0 means it automatically specifies type
         line_to_parse.erase(0, pos + delimiter.length());
     } while (pos != string::npos);
 
     return aVector;
 }
 
-struct Library {
-    int numBooks{};
-    int singUp{};
-    int shipNum{};
-    vector<int> books;
-};
-
 int main() {
     ifstream file("a_example.txt");
     int B, L, dead_line;
-
+    vector<Library> libraries;
 
     if (file.is_open()) {
         string line;
@@ -51,7 +45,7 @@ int main() {
         getline(file, line);
         vector<int> stats = makeVector(line, delimiter);
 
-        vector<Library> libraries;
+
 
         for (int a = 0; a < L; a++) {
             getline(file, line);
@@ -59,8 +53,8 @@ int main() {
             vector<int> a_vector = makeVector(line, delimiter);
 
             struct Library temp;
-            temp.shipNum = a_vector.at(2);
-            temp.singUp = a_vector.at(1);
+            temp.scanPerDay = a_vector.at(2);
+            temp.daysToSignUp = a_vector.at(1);
             temp.numBooks = a_vector.at(0);
             a_vector.clear();
 
@@ -72,10 +66,11 @@ int main() {
             a_vector.clear();
 
         }
-        cout<< libraries.at(1).numBooks;
+//        cout<< libraries.at(1).numBooks;
         file.close();
     }
 
+    findLibrary(1, libraries, B, L, dead_line);
 
 
 

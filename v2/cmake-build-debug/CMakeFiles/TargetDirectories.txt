@@ -1,0 +1,3 @@
+C:/Users/Janek_PC/Desktop/Projects/opop/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/Janek_PC/Desktop/Projects/opop/cmake-build-debug/CMakeFiles/opop.dir
+C:/Users/Janek_PC/Desktop/Projects/opop/cmake-build-debug/CMakeFiles/edit_cache.dir
