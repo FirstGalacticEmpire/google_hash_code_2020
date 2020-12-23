@@ -52,24 +52,13 @@ RM = "C:\Program Files\JetBrains\CLion 2020.2\bin\cmake\win\bin\cmake.exe" -E rm
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\Janek_PC\Desktop\Projects\opop
+CMAKE_SOURCE_DIR = C:\Users\Janek_PC\Desktop\Projects\uopo2
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\Janek_PC\Desktop\Projects\opop\cmake-build-debug
+CMAKE_BINARY_DIR = C:\Users\Janek_PC\Desktop\Projects\uopo2\cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
-
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	echo >nul && "C:\Program Files\JetBrains\CLion 2020.2\bin\cmake\win\bin\cmake.exe" --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache\fast: rebuild_cache
-
-.PHONY : rebuild_cache\fast
 
 # Special rule for the target edit_cache
 edit_cache:
@@ -82,11 +71,22 @@ edit_cache\fast: edit_cache
 
 .PHONY : edit_cache\fast
 
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	echo >nul && "C:\Program Files\JetBrains\CLion 2020.2\bin\cmake\win\bin\cmake.exe" --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache\fast: rebuild_cache
+
+.PHONY : rebuild_cache\fast
+
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Janek_PC\Desktop\Projects\opop\cmake-build-debug\CMakeFiles C:\Users\Janek_PC\Desktop\Projects\opop\cmake-build-debug\CMakeFiles\progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Janek_PC\Desktop\Projects\uopo2\cmake-build-debug\CMakeFiles C:\Users\Janek_PC\Desktop\Projects\uopo2\cmake-build-debug\CMakeFiles\progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Janek_PC\Desktop\Projects\opop\cmake-build-debug\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Janek_PC\Desktop\Projects\uopo2\cmake-build-debug\CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -115,17 +115,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named opop
+# Target rules for targets named uopo2
 
 # Build rule for target.
-opop: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) opop
-.PHONY : opop
+uopo2: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) uopo2
+.PHONY : uopo2
 
 # fast build rule for target.
-opop\fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\opop.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\opop.dir\build
-.PHONY : opop\fast
+uopo2\fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\uopo2.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\uopo2.dir\build
+.PHONY : uopo2\fast
 
 Library.obj: Library.cpp.obj
 
@@ -133,7 +133,7 @@ Library.obj: Library.cpp.obj
 
 # target to build an object file
 Library.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\opop.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\opop.dir\Library.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\uopo2.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\uopo2.dir\Library.cpp.obj
 .PHONY : Library.cpp.obj
 
 Library.i: Library.cpp.i
@@ -142,7 +142,7 @@ Library.i: Library.cpp.i
 
 # target to preprocess a source file
 Library.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\opop.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\opop.dir\Library.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\uopo2.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\uopo2.dir\Library.cpp.i
 .PHONY : Library.cpp.i
 
 Library.s: Library.cpp.s
@@ -151,7 +151,7 @@ Library.s: Library.cpp.s
 
 # target to generate assembly for a file
 Library.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\opop.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\opop.dir\Library.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\uopo2.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\uopo2.dir\Library.cpp.s
 .PHONY : Library.cpp.s
 
 main.obj: main.cpp.obj
@@ -160,7 +160,7 @@ main.obj: main.cpp.obj
 
 # target to build an object file
 main.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\opop.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\opop.dir\main.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\uopo2.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\uopo2.dir\main.cpp.obj
 .PHONY : main.cpp.obj
 
 main.i: main.cpp.i
@@ -169,7 +169,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\opop.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\opop.dir\main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\uopo2.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\uopo2.dir\main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -178,7 +178,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\opop.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\opop.dir\main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\uopo2.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\uopo2.dir\main.cpp.s
 .PHONY : main.cpp.s
 
 # Help Target
@@ -189,7 +189,7 @@ help:
 	@echo ... depend
 	@echo ... edit_cache
 	@echo ... rebuild_cache
-	@echo ... opop
+	@echo ... uopo2
 	@echo ... Library.obj
 	@echo ... Library.i
 	@echo ... Library.s

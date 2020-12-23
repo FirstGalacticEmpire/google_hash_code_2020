@@ -1,19 +1,22 @@
 //
-// Created by Janek_PC on 15.12.2020.
+// Created by Janek_PC on 23.12.2020.
 //
-#include <vector>
 
-#ifndef OPOP_LIBRARY_H
-#define OPOP_LIBRARY_H
+#include <vector>
+#ifndef UOPO2_LIBRARY_H
+#define UOPO2_LIBRARY_H
 
 
 struct Library {
     int numBooks{};
     int daysToSignUp{};
-    int scanPerDay{};
-    int score{};
+    int booksPerDay{};
+    int value{};
+    int libraryNumber{};
     std::vector<int> books;
+    std::vector<int> booksToScan;
 };
 
-int findLibrary(int currentDay, std::vector<Library> &libraries, int B, int L, int dead_line);
-#endif //OPOP_LIBRARY_H
+Library findLibrary(int currentDay, std::vector<Library> &libraries, int dead_line, const std::vector<int> &book_scores);
+void removeDuplicates(std::vector<Library> &libraries, std::vector<int> &booksToRemove);
+#endif //UOPO2_LIBRARY_H

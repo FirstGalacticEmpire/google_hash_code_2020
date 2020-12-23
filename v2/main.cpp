@@ -2,10 +2,19 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <stdexcept>
 
 #include "Library.h"
+#include <iostream>
+#include <vector>
+#include "Library.h"
+#include <algorithm>
+#include <algorithm>
+#include <unordered_set>
+
 using namespace std;
 
+vector<int> book_scores;
 
 vector<int> makeVector(string &line_to_parse, string &delimiter) {
     vector<int> aVector;
@@ -21,9 +30,14 @@ vector<int> makeVector(string &line_to_parse, string &delimiter) {
     return aVector;
 }
 
+bool compareBooksByScore(const int &a, const int &b) {
+    return book_scores.at(a) > book_scores.at(b);
+}
+
 int main() {
-    ifstream file("a_example.txt");
-    int B, L, dead_line;
+    //ifstream file("f_libraries_of_the_world.txt");
+    ifstream file("d_tough_choices.txt");
+    int B = 0, L = 0, dead_line = 0;
     vector<Library> libraries;
 
     if (file.is_open()) {
@@ -32,19 +46,18 @@ int main() {
 
         getline(file, line);
 
-        cout << line << endl;
 
         // Parsing first line
         vector<int> b_l_d = makeVector(line, delimiter);
+
         dead_line = b_l_d.at(2);
         L = b_l_d.at(1);
         B = b_l_d.at(0);
-        //clearing memory
+
         b_l_d.clear();
 
         getline(file, line);
-        vector<int> stats = makeVector(line, delimiter);
-
+        book_scores = makeVector(line, delimiter);
 
 
         for (int a = 0; a < L; a++) {
@@ -53,25 +66,55 @@ int main() {
             vector<int> a_vector = makeVector(line, delimiter);
 
             struct Library temp;
-            temp.scanPerDay = a_vector.at(2);
+            temp.booksPerDay = a_vector.at(2);
             temp.daysToSignUp = a_vector.at(1);
+
             temp.numBooks = a_vector.at(0);
+            temp.libraryNumber = a;
             a_vector.clear();
 
             getline(file, line);
 
-            a_vector = makeVector(line, delimiter);
-            temp.books = a_vector;
+            temp.books = makeVector(line, delimiter);
             libraries.push_back(temp);
             a_vector.clear();
 
         }
-//        cout<< libraries.at(1).numBooks;
+
+
         file.close();
+    } else {
+        throw "assadasd";
     }
 
-    findLibrary(1, libraries, B, L, dead_line);
+    for (auto &library : libraries) {
+        sort(library.books.begin(), library.books.end(), compareBooksByScore);
+    }
+    int result=0;
+    Library library = findLibrary(0, libraries, dead_line, book_scores);
+    for (int i = 0; i < dead_line; i++) {
+        library.daysToSignUp -= 1;
+        if (library.daysToSignUp == 0) {
 
+            cout << libraries.at(0).libraryNumber << " " << libraries.at(0).booksToScan.size() << endl;
+            for (auto &book : library.booksToScan) {
+                cout << book << " ";
+//                cout<<"asds"<<book_scores.at(book)<<"asd";
+                result = result + book_scores.at(book);
+            }
+            cout<<endl;
+            libraries.erase(libraries.begin());
+            if (!libraries.empty()) {
+                removeDuplicates(libraries, library.booksToScan);
+                library = findLibrary(i, libraries, dead_line, book_scores);
+            } else {
+                break;
+            }
+        }
+
+
+    }
+    cout<<endl<<result;
 
 
 }

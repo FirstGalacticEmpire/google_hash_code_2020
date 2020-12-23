@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.17)
-project(opop)
+project(uopo2)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(opop main.cpp Library.cpp Library.h)
+add_executable(uopo2 main.cpp Library.cpp Library.h)
