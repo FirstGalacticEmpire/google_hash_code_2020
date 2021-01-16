@@ -8,6 +8,8 @@ import copy
 # Max flow Max cost solver
 from ortools.graph import pywrapgraph
 
+start_time = time.time()
+
 solver_methods = [HeuristicSolver, PowerSolver, SimpleScoreVarianceSolver, SquareScoreVarianceSolver,
                   BookNumbersSolver, ScoreSquareSolver, BookCountSolver, BookCountPowerSolver, RandomSolver]
 
@@ -32,28 +34,19 @@ class Library:
 
 # Loads data from files into the class Library Objects
 def process_file():
-    content = []
-    while True:
-        try:
-            line = input()
-            content.append(line)
-        except EOFError:
-            break
-    # print(content)
-    # content = input().split('\n')[:-1]
-    B, L, D = content[0].split()
+    B, L, D = input().split()
     B, L, D = int(B), int(L), int(D)
 
     book_libraries = [set() for i in range(0, B)]
-    book_values = [int(n) for n in content[1].split()]
+    book_values = [int(n) for n in input().split()]
     libraries = []
 
     for i in range(L):
-        N, T, M = content[2 + 2 * i].split()
+        N, T, M = input().split()
         N, T, M = int(N), int(T), int(M)
-        book_ids = set(int(id_) for id_ in content[2 + 2 * i + 1].split())
+        book_ids = set(int(id_) for id_ in input().split())
         library = Library(i, N, T, M)
-
+        
         for book_id in book_ids:
             book_libraries[book_id].add(i)
             library.add_book(book_id)
@@ -96,8 +89,8 @@ def score_solution(libraries, book_values):
 
 
 class GeneticSolver(ProblemSolver):
-    def __init__(self, B, L, D, book_values, book_libraries, libraries, pop_size=20, p_mutate=0.5, surv_rate=0.2,
-                 tournament_size=3, available_time=290):
+    def __init__(self, B, L, D, book_values, book_libraries, libraries,start_time, deadline = 240,pop_size=20, p_mutate=0.5, surv_rate=0.2,
+                 tournament_size=3):
         super().__init__(B, L, D, book_values, book_libraries, libraries)
         num = 1
         length_of_libraries = len(libraries)
@@ -112,7 +105,8 @@ class GeneticSolver(ProblemSolver):
         self.individual_scores = dict()
         self.lib_ids = [i for i in range(len(libraries))]
         self.lib_scores = [self.lib_score(lib) for lib in self.libraries]
-        self.available_time = available_time
+        self.start_time = start_time
+        self.deadline = deadline
 
     def lib_score(self, lib):
         delta_time = self.D - lib.signup_time
@@ -186,24 +180,9 @@ class GeneticSolver(ProblemSolver):
     def tournament(self, indivs):
         return max(indivs, key=self.individual_scores.get)
 
-    def select_survivals(self, population):
-        k = int(5 * self.pop_size * self.survival_rate)
-        weights = [self.individual_scores[individual] for individual in population]
-        chosen = []
-        already_chosen = set()
-        desired = int(self.pop_size * self.survival_rate)
-        while len(already_chosen) < desired:
-            candidates = random.choices(population, k=k, weights=weights)
-            for cand in candidates:
-                if cand not in already_chosen:
-                    chosen.append(cand)
-                    already_chosen.add(cand)
-        return chosen
-
     def get_initial_population(self):
         solvers_cls = [HeuristicSolver, PowerSolver, SimpleScoreVarianceSolver, SquareScoreVarianceSolver,
                        BookNumbersSolver, ScoreSquareSolver, BookCountSolver, BookCountPowerSolver]
-        start_time = time.time()
         solvers = [cl(self.B, self.L, self.D, self.book_values, self.book_libraries, self.libraries) for cl in
                    solvers_cls]
         population = [solver.get_individual() for solver in solvers]
@@ -211,8 +190,6 @@ class GeneticSolver(ProblemSolver):
                                                       self.libraries)
         greedy_interval_solution = greedy_interval_solver.get_solution()
         gis_individual = greedy_interval_solver.get_individual_from_solution(greedy_interval_solution)
-        end_time = time.time()
-        self.available_time -= (end_time - start_time)
         population.append(gis_individual)
         self.individual_scores[gis_individual] = score_solution(greedy_interval_solution, self.book_values)
         random_solver = RandomSolver(self.B, self.L, self.D, self.book_values, self.book_libraries, self.libraries)
@@ -225,16 +202,9 @@ class GeneticSolver(ProblemSolver):
         for a_individual in population:
             sol = self.get_solution(a_individual)
             self.individual_scores[a_individual] = score_solution(sol, self.book_values)
-        start_time = time.time()
-        progress = []
-        cur_state = []
-        times = []
 
         while True:
-            progress.append(max(self.individual_scores.values()))
-            cur_state.append(max([self.individual_scores[pop] for pop in population]))
-            times.append(time.time() - start_time)
-            if time.time() - start_time > self.available_time:
+            if time.time() - self.start_time > self.deadline:
                 break
             new_population = [self.tournament(random.sample(population, self.tournament_size)) for i in
                               range(int(self.pop_size * self.survival_rate))]
@@ -289,17 +259,17 @@ def create_solution(solution):
         print(line)
 
 
-def solve_one_example_with_genetic_climber_max_flow(time_for_genetic, time_for_hill_climber):
+def solve_one_example_with_genetic_climber_max_flow(deadline_for_genetic, deadline_for_hill_climber):
     (B, L, D), book_values, book_counts, libraries = process_file()
     libraries_backup = copy.deepcopy(libraries)
-    genetic_solver = GeneticSolver(B, L, D, book_values, book_counts, libraries, 20,
-                                   available_time=time_for_genetic)
+    genetic_solver = GeneticSolver(B, L, D, book_values, book_counts, libraries, start_time,
+                                   deadline=deadline_for_genetic)
     individual = genetic_solver.get_individual()
     check_solution(D, genetic_solver.get_solution(selected_lib_ids=individual))
 
     hill_climber_solver = MutationHillClimbingSolver(B, L, D, book_values, book_counts, libraries,
-                                                     genetic_solver.individual_scores,
-                                                     available_time=time_for_hill_climber)
+                                                     genetic_solver.individual_scores,start_time,
+                                                     deadline=deadline_for_hill_climber)
     # Creating new individual with hill_climber
     individual = hill_climber_solver.get_individual(individual)
     climbed_solution = hill_climber_solver.get_solution(individual)
@@ -390,4 +360,4 @@ def solve_one_example_with_genetic_climber_max_flow(time_for_genetic, time_for_h
 
 
 if __name__ == "__main__":
-    solve_one_example_with_genetic_climber_max_flow(1, 1)
+    solve_one_example_with_genetic_climber_max_flow(260, 280)

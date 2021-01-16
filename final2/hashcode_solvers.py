@@ -162,7 +162,7 @@ class GreedyIntervalSolver:
         n_best_books = self.get_n_best_books(lib, min(delta_time * lib.books_per_day, len(lib.book_ids)))
         sum_of_best_book_scores = sum([self.book_values[book] for book in n_best_books])
         sum_of_best_book_scores /= lib.signup_time
-        return sum_of_best_book_scores  # / lib.signup_time ** (1 + lib.signup_time / self.D)
+        return sum_of_best_book_scores
 
     def get_solution(self):
         remaining_libraries = set(lib.id for lib in self.libraries)
@@ -201,14 +201,14 @@ class GreedyIntervalSolver:
 
 
 class MutationHillClimbingSolver(ProblemSolver):
-    def __init__(self, B, L, D, book_values, book_libraries, libraries, individual_scores, neighbourhood_size=10,
-                 available_time=100):
+    def __init__(self, B, L, D, book_values, book_libraries, libraries, individual_scores,start_time, deadline = 260, neighbourhood_size=10):
         super().__init__(B, L, D, book_values, book_libraries, libraries)
         self.neighbourhood_size = neighbourhood_size
         self.individua_scores = individual_scores
         self.lib_ids = [i for i in range(len(libraries))]
         self.lib_scores = [self.lib_score(lib) for lib in self.libraries]
-        self.available_time = available_time
+        self.deadline = deadline
+        self.start_time = start_time
 
     def lib_score(self, lib):
         delta_time = self.D - lib.signup_time
@@ -249,11 +249,8 @@ class MutationHillClimbingSolver(ProblemSolver):
     def get_individual(self, start_individual):
         cur_best = copy.copy(start_individual)
         cur_best_score = self.individua_scores[cur_best]
-        start_time = time.time()
-        progress = []
-        cur_state = []
-        times = []
-        while time.time() - start_time <= self.available_time:
+
+        while time.time() - self.start_time <= self.deadline:
             neighbourhood = []
             n_scores = []
             for i in range(self.neighbourhood_size):
@@ -271,7 +268,4 @@ class MutationHillClimbingSolver(ProblemSolver):
             if new_max_score > cur_best_score:
                 cur_best = neighbourhood[new_max_score_index]
                 cur_best_score = new_max_score
-            progress.append(cur_best_score)
-            cur_state.append(new_max_score)
-            times.append(time.time() - start_time)
         return cur_best
