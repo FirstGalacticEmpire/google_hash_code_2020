@@ -2,11 +2,12 @@
 Project realized for subject Combinatorial Optimazation. 
 
 Done jointly by Kacper Trębacz & Jan Gruszczyński
+
 Combinatorial Optimization - Laboratories
 Artificial Intelligence 2021 sem. 3
 Library Book Assignment
-Kacper Trębacz 145453
-Jan Gruszczyński 145464
+Kacper Trębacz 
+Jan Gruszczyński 
 
 Theoretical description
 
