@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/Janek_PC/Desktop/Projects/uopo2/Library.h
+vector
+-
+
+C:/Users/Janek_PC/Desktop/Projects/uopo2/main.cpp
+iostream
+-
+fstream
+-
+string
+-
+vector
+-
+stdexcept
+-
+Library.h
+C:/Users/Janek_PC/Desktop/Projects/uopo2/Library.h
+iostream
+-
+vector
+-
+Library.h
+C:/Users/Janek_PC/Desktop/Projects/uopo2/Library.h
+algorithm
+-
+algorithm
+-
+unordered_set
+-
+
