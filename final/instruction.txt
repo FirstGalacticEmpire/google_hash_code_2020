@@ -1,0 +1,6 @@
+Script file can be runned using following command:
+py hashcode.py <a_example.txt >output.txt
+python version 3.7.6
+numpy 1.18.5
+ortools Version: 8.1.8487
+Please, note that from our understanding, the newest version of numpy crashes for currently unknown reason on windows with AMD processors. 

@@ -1,0 +1,3 @@
+C:/Users/Janek_PC/Desktop/Projects/uopo2/cmake-build-debug/CMakeFiles/uopo2.dir
+C:/Users/Janek_PC/Desktop/Projects/uopo2/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Janek_PC/Desktop/Projects/uopo2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
